@@ -349,6 +349,93 @@ h3 { font-size: clamp(1.5rem, 2.4vw, 2rem); }
 }
 .site-footer span:first-child { color: var(--color-ink); font-weight: 900; }
 
+/* -- Results Table & Download Button -- */
+.results-container {
+  margin-top: 42px;
+  padding: clamp(18px, 4vw, 34px);
+  border: 1px solid var(--color-line);
+  border-radius: var(--radius-xl);
+  background: rgba(255, 255, 255, 0.88);
+  box-shadow: var(--shadow-card);
+  animation: slideUpFade 0.4s ease-out forwards;
+}
+
+@keyframes slideUpFade {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.results-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 16px;
+  margin-bottom: 24px;
+}
+
+.results-header h3 {
+  margin: 0;
+  font-family: Georgia, "Times New Roman", serif;
+  color: var(--color-primary-dark);
+}
+
+.download-button {
+  gap: 8px;
+  min-height: 44px;
+  padding: 0 20px;
+  font-size: 0.95rem;
+}
+
+.table-responsive {
+  width: 100%;
+  overflow-x: auto;
+  border-radius: var(--radius-md);
+  border: 1px solid var(--color-line);
+}
+
+.references-table {
+  width: 100%;
+  border-collapse: collapse;
+  text-align: left;
+  background: white;
+}
+
+.references-table th,
+.references-table td {
+  padding: 16px;
+  border-bottom: 1px solid var(--color-line);
+}
+
+.references-table th {
+  background: var(--color-soft);
+  color: var(--color-muted);
+  font-weight: 700;
+  font-size: 0.9rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  white-space: nowrap;
+}
+
+.references-table tr:last-child td {
+  border-bottom: none;
+}
+
+.references-table tbody tr:hover {
+  background-color: rgba(220, 236, 255, 0.2);
+}
+
+.references-table td {
+  font-size: 0.95rem;
+  color: var(--color-ink);
+  line-height: 1.5;
+}
+
+.references-table td strong {
+  font-weight: 700;
+  color: var(--color-primary-dark);
+}
+
 @media (max-width: 900px) {
   .site-header { border-radius: 24px; align-items: flex-start; }
   .nav-links { display: none; }

@@ -76,6 +76,31 @@
           <div id="file-status" class="file-status" role="status" aria-live="polite">Ningún archivo seleccionado todavía.</div>
           <button class="button button-primary upload-button" type="button" id="process-button" disabled>Procesar documento</button>
         </form>
+
+        <div id="results-container" class="results-container" style="display: none;">
+          <div class="results-header">
+            <h3>Referencias Extraídas</h3>
+            <button class="button button-secondary download-button" type="button" id="download-button">
+              <svg viewBox="0 0 24 24" width="20" height="20" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round" class="icon-download"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg>
+              Descargar Referencias
+            </button>
+          </div>
+          <div class="table-responsive">
+            <table id="references-table" class="references-table">
+              <thead>
+                <tr>
+                  <th>Autor(es)</th>
+                  <th>Año</th>
+                  <th>Título</th>
+                  <th>Fuente</th>
+                </tr>
+              </thead>
+              <tbody id="references-tbody">
+                <!-- Contenido dinámico -->
+              </tbody>
+            </table>
+          </div>
+        </div>
       </section>
 
       <section id="como-funciona" class="steps-section section-shell" aria-labelledby="steps-title">
