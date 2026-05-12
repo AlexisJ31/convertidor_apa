@@ -1,0 +1,10 @@
+/* Minimal local Tailwind CSS build subset for the AutoAPA prototype. */
+*, ::before, ::after { box-sizing: border-box; border-width: 0; border-style: solid; border-color: currentColor; }
+html { line-height: 1.5; -webkit-text-size-adjust: 100%; tab-size: 4; }
+body { margin: 0; font-family: ui-sans-serif, system-ui, sans-serif; line-height: inherit; }
+button, input { font-family: inherit; font-size: 100%; line-height: inherit; margin: 0; }
+button { text-transform: none; }
+button, [role='button'] { cursor: pointer; }
+svg { display: block; vertical-align: middle; }
+a { color: inherit; text-decoration: inherit; }
+.sr-only { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0, 0, 0, 0); white-space: nowrap; border-width: 0; }

@@ -1,0 +1,125 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="description" content="AutoAPA convierte documentos académicos en entregables formateados con criterios APA de forma rápida y segura." />
+    <title>AutoAPA — Formato APA automático</title>
+    <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='32' fill='%23155e9f'/%3E%3Ctext x='32' y='40' text-anchor='middle' font-size='30' font-family='Georgia' font-weight='700' fill='white'%3EA%3C/text%3E%3C/svg%3E" />
+    <link rel="stylesheet" href="tailwind.css" />
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <header class="site-header" aria-label="Barra principal">
+      <a class="brand" href="#inicio" aria-label="AutoAPA inicio">
+        <span class="brand-mark" aria-hidden="true">A</span>
+        <span>AutoAPA</span>
+      </a>
+      <nav class="nav-links" aria-label="Navegación principal">
+        <a href="#dropzone">Subir archivo</a>
+        <a href="#como-funciona">Cómo funciona</a>
+        <a href="#seguridad">Seguridad</a>
+      </nav>
+      <a class="nav-cta" href="#dropzone">Comenzar</a>
+    </header>
+
+    <main id="inicio">
+      <section class="hero section-shell" aria-labelledby="hero-title">
+        <div class="hero-copy">
+          <p class="eyebrow">Formato APA sin fricción</p>
+          <h1 id="hero-title">Convierte tus documentos en entregas académicas listas para revisar.</h1>
+          <p class="hero-subtitle">AutoAPA ayuda a estudiantes, docentes e investigadores a preparar documentos .doc, .docx y .pdf con una experiencia guiada, rápida y profesional.</p>
+          <div class="hero-actions" aria-label="Acciones principales">
+            <a class="button button-primary" href="#dropzone">Comenzar</a>
+            <a class="button button-secondary" href="#como-funciona">Ver proceso</a>
+          </div>
+          <dl class="trust-strip" aria-label="Beneficios principales">
+            <div><dt>3 formatos</dt><dd>DOC, DOCX, PDF</dd></div>
+            <div><dt>Flujo guiado</dt><dd>Sin configuraciones complejas</dd></div>
+            <div><dt>Diseño responsive</dt><dd>Funciona en móvil y escritorio</dd></div>
+          </dl>
+        </div>
+
+        <aside class="hero-panel" aria-label="Resumen de AutoAPA">
+          <div class="panel-topline">
+            <span class="status-dot" aria-hidden="true"></span>
+            <span>Revisión APA preparada</span>
+          </div>
+          <div class="paper-preview" aria-hidden="true">
+            <span></span><span></span><span></span><span></span>
+          </div>
+          <div class="panel-card">
+            <strong>Salida estimada</strong>
+            <span>Portada, márgenes, encabezados y referencias normalizadas.</span>
+          </div>
+        </aside>
+      </section>
+
+      <section id="dropzone" class="upload-section section-shell" aria-labelledby="upload-title">
+        <div class="section-heading">
+          <p class="eyebrow">Carga segura</p>
+          <h2 id="upload-title">Arrastra tu archivo y deja que AutoAPA prepare el formato.</h2>
+          <p>Selecciona un documento compatible. La interfaz validará el tipo de archivo antes de continuar.</p>
+        </div>
+
+        <form class="upload-card" aria-describedby="upload-help" novalidate>
+          <input id="file-input" class="file-input" type="file" accept=".doc,.docx,.pdf,application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document,application/pdf" />
+          <label id="drop-area" class="drop-area" for="file-input" tabindex="0">
+            <span class="upload-icon" aria-hidden="true">
+              <svg viewBox="0 0 48 48" role="img"><path d="M24 7v24m0-24 9 9m-9-9-9 9"/><path d="M12 30v7a4 4 0 0 0 4 4h16a4 4 0 0 0 4-4v-7"/></svg>
+            </span>
+            <span class="drop-title">Suelta aquí tu documento</span>
+            <span class="drop-copy">o haz clic para buscar en tu equipo</span>
+            <span class="file-types">.doc · .docx · .pdf</span>
+          </label>
+          <p id="upload-help" class="upload-help">Tamaño recomendado: hasta 25 MB. No se realizará ninguna carga real en este prototipo.</p>
+          <div id="file-status" class="file-status" role="status" aria-live="polite">Ningún archivo seleccionado todavía.</div>
+          <button class="button button-primary upload-button" type="button" id="process-button" disabled>Procesar documento</button>
+        </form>
+      </section>
+
+      <section id="como-funciona" class="steps-section section-shell" aria-labelledby="steps-title">
+        <div class="section-heading narrow">
+          <p class="eyebrow">Cómo funciona</p>
+          <h2 id="steps-title">Tres pasos claros para avanzar sin perder tiempo.</h2>
+        </div>
+        <div class="steps-grid">
+          <article class="step-card">
+            <span class="step-number">01</span>
+            <h3>Sube</h3>
+            <p>Arrastra tu archivo o selecciónalo desde tu dispositivo con validación instantánea del formato.</p>
+          </article>
+          <article class="step-card featured-step">
+            <span class="step-number">02</span>
+            <h3>Procesa</h3>
+            <p>AutoAPA revisa la estructura del documento y prepara ajustes de presentación académica.</p>
+          </article>
+          <article class="step-card">
+            <span class="step-number">03</span>
+            <h3>Descarga</h3>
+            <p>Obtén una versión lista para entregar, revisar o compartir con tu equipo académico.</p>
+          </article>
+        </div>
+      </section>
+
+      <section id="seguridad" class="assurance section-shell" aria-labelledby="security-title">
+        <div>
+          <p class="eyebrow">Diseñado para documentos académicos</p>
+          <h2 id="security-title">Una experiencia sobria, rápida y enfocada en confianza.</h2>
+        </div>
+        <div class="assurance-list">
+          <p><strong>Validación visible:</strong> el usuario sabe cuándo el archivo es compatible.</p>
+          <p><strong>Estados accesibles:</strong> mensajes claros para error, éxito y archivo pendiente.</p>
+          <p><strong>Responsive:</strong> navegación, hero y dropzone se adaptan a pantallas pequeñas.</p>
+        </div>
+      </section>
+    </main>
+
+    <footer class="site-footer">
+      <span>AutoAPA</span>
+      <span>Prototipo frontend con HTML5, CSS estilo Tailwind y JavaScript vanilla.</span>
+    </footer>
+
+    <script src="script.js"></script>
+  </body>
+</html>
