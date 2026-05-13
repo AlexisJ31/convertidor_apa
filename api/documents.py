@@ -1,8 +1,10 @@
 import os
 import shutil
 from fastapi import APIRouter, UploadFile, File, HTTPException, status
+from fastapi.responses import FileResponse
 from services.extractor_service import get_extractor
 from services.ai_service import AIService
+from services.formatter_service import FormatterService
 
 router = APIRouter()
 
@@ -24,6 +26,7 @@ async def convert_document(file: UploadFile = File(...)):
     
     # Ruta de guardado
     file_path = os.path.join(TEMP_DIR, file.filename)
+    formatted_file_path = None
     
     # Guardar el archivo temporalmente y obtener el tamaño
     try:
@@ -36,9 +39,27 @@ async def convert_document(file: UploadFile = File(...)):
         extractor = get_extractor(file_path)
         extracted_text = extractor.extract_text()
         
-        # Procesar texto con la IA de Gemini
+        # Procesar texto con la IA de Gemini para obtener referencias
         ai_service = AIService()
         references = ai_service.parse_references(extracted_text)
+        
+        # Formatear documento según APA 7
+        # Si es PDF, convertir primero a DOCX (simplificado: solo procesamos DOCX)
+        if ext.lower() == ".pdf":
+            raise HTTPException(
+                status_code=status.HTTP_400_BAD_REQUEST,
+                detail="El formateo APA solo está disponible para archivos .docx. Por favor, convierte tu PDF a Word primero."
+            )
+        
+        formatter = FormatterService(file_path)
+        formatted_file_path = formatter.format_document()
+        
+        # Devolver el archivo formateado como descarga
+        return FileResponse(
+            path=formatted_file_path,
+            filename="Documento_Formato_APA.docx",
+            media_type="application/vnd.openxmlformats-officedocument.wordprocessingml.document"
+        )
         
     except ValueError as ve:
         raise HTTPException(
@@ -52,9 +73,3 @@ async def convert_document(file: UploadFile = File(...)):
         )
     finally:
         file.file.close()
-        
-    return {
-        "filename": file.filename,
-        "size": file_size,
-        "references": references
-    }

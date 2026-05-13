@@ -3,10 +3,9 @@ const fileInput = document.querySelector('#file-input');
 const fileStatus = document.querySelector('#file-status');
 const processButton = document.querySelector('#process-button');
 const resultsContainer = document.querySelector('#results-container');
-const referencesTbody = document.querySelector('#references-tbody');
-const downloadButton = document.querySelector('#download-button');
+const resultMessageContainer = document.querySelector('#result-message-container');
 
-const validExtensions = ['doc', 'docx', 'pdf'];
+const validExtensions = new Set(['doc', 'docx', 'pdf']);
 
 function getExtension(fileName) {
   return fileName.split('.').pop().toLowerCase();
@@ -24,18 +23,16 @@ function updateStatus(message, type = 'neutral') {
 }
 
 let selectedFile = null;
-let currentReferences = [];
 
 function handleFile(file) {
   if (!file) return;
 
   const extension = getExtension(file.name);
-  const isValid = validExtensions.includes(extension);
+  const isValid = validExtensions.has(extension);
 
   // Ocultar resultados previos si hay una nueva selección
   resultsContainer.style.display = 'none';
-  currentReferences = [];
-  referencesTbody.innerHTML = '';
+  resultMessageContainer.innerHTML = '';
 
   if (!isValid) {
     updateStatus('Formato no compatible. Sube un archivo .doc, .docx o .pdf.', 'error');
@@ -83,15 +80,20 @@ dropArea.addEventListener('keydown', (event) => {
 
 processButton.addEventListener('click', async (event) => {
   event.preventDefault(); // Prevenir cualquier comportamiento por defecto
+  console.log('Botón clickeado, previniendo recarga...');
 
   if (!selectedFile) {
     updateStatus('Por favor, selecciona un archivo primero.', 'error');
     return;
   }
 
+  // Limpiar resultados previos
+  resultsContainer.style.display = 'none';
+  resultMessageContainer.innerHTML = '';
+
   // Deshabilitar botón para evitar doble envío
   processButton.disabled = true;
-  updateStatus('Procesando documento con IA... por favor espera', 'neutral');
+  updateStatus('Procesando documento y aplicando formato APA 7... por favor espera', 'neutral');
 
   const formData = new FormData();
   formData.append('file', selectedFile);
@@ -103,25 +105,44 @@ processButton.addEventListener('click', async (event) => {
     });
 
     if (!response.ok) {
-      const errorData = await response.json();
-      throw new Error(errorData.detail || `Error del servidor: ${response.status}`);
+      let errorMessage = `Error del servidor: ${response.status}`;
+      try {
+        const errorData = await response.json();
+        errorMessage = errorData.detail || errorMessage;
+      } catch (e) {
+        // Si no es JSON, mantener el mensaje por defecto
+      }
+      throw new Error(errorMessage);
     }
 
-    const data = await response.json();
-    updateStatus('¡Documento procesado exitosamente!', 'success');
-    console.log('Respuesta de Gemini:', data);
+    // Obtener el blob del archivo DOCX formateado
+    const blob = await response.blob();
+    console.log('Archivo DOCX recibido, tamaño:', blob.size, 'bytes');
+
+    // Crear enlace dinámico e iniciar descarga
+    const url = window.URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = 'Documento_Formato_APA.docx';
+    document.body.appendChild(a);
+    a.click();
+    a.remove();
+    window.URL.revokeObjectURL(url);
+
+    // Mostrar mensaje de éxito
+    updateStatus('¡Documento formateado con éxito! Se ha iniciado la descarga.', 'success');
     
-    if (data.references && data.references.length > 0) {
-      currentReferences = data.references;
-      renderTable(currentReferences);
-      resultsContainer.style.display = 'block';
-      // Desplazarse suavemente hacia los resultados
-      setTimeout(() => {
-        resultsContainer.scrollIntoView({ behavior: 'smooth', block: 'start' });
-      }, 100);
-    } else {
-      updateStatus('Se procesó el documento pero no se encontraron referencias.', 'neutral');
-    }
+    // Inyectar mensaje de éxito en el contenedor
+    resultMessageContainer.innerHTML = `
+      <p class="text-green-600 font-semibold mb-2">✓ Documento procesado y descargado con éxito</p>
+      <p class="text-sm text-gray-600">Se aplicó formato APA 7: Márgenes de 1", Times New Roman 12pt, interlineado doble.</p>
+    `;
+    resultsContainer.style.display = 'block';
+    
+    // Desplazarse suavemente hacia los resultados
+    setTimeout(() => {
+      resultsContainer.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }, 100);
     
   } catch (error) {
     console.error('Error procesando el documento:', error);
@@ -131,66 +152,7 @@ processButton.addEventListener('click', async (event) => {
   }
 });
 
-function renderTable(references) {
-  referencesTbody.innerHTML = '';
-  
-  references.forEach(ref => {
-    const tr = document.createElement('tr');
-    
-    // Asegurar que las propiedades existan o poner un guion
-    const autor = ref.autor || ref.Autor || '-';
-    const anio = ref['año'] || ref.año || ref.Año || ref.year || '-';
-    const titulo = ref['título'] || ref.título || ref.Título || ref.title || '-';
-    const fuente = ref['editorial/fuente'] || ref.fuente || ref.Fuente || ref.editorial || '-';
-    
-    tr.innerHTML = `
-      <td>${autor}</td>
-      <td>${anio}</td>
-      <td><strong>${titulo}</strong></td>
-      <td>${fuente}</td>
-    `;
-    
-    referencesTbody.appendChild(tr);
-  });
-}
-
-downloadButton.addEventListener('click', () => {
-  if (!currentReferences || currentReferences.length === 0) return;
-  
-  // Generar texto en formato APA
-  let textContent = "Referencias Bibliográficas (Formato APA)\n\n";
-  
-  currentReferences.forEach(ref => {
-    const autor = ref.autor || ref.Autor || '';
-    const anio = ref['año'] || ref.año || ref.Año || ref.year || '';
-    const titulo = ref['título'] || ref.título || ref.Título || ref.title || '';
-    const fuente = ref['editorial/fuente'] || ref.fuente || ref.Fuente || ref.editorial || '';
-    const url = ref.url || ref.URL || '';
-    
-    // Construcción básica estilo APA
-    let refText = "";
-    if (autor) refText += `${autor} `;
-    if (anio) refText += `(${anio}). `;
-    if (titulo) refText += `${titulo}. `;
-    if (fuente) refText += `${fuente}.`;
-    if (url) refText += ` ${url}`;
-    
-    textContent += refText.trim() + "\n\n";
-  });
-  
-  // Crear y descargar el archivo .txt
-  const blob = new Blob([textContent], { type: "text/plain;charset=utf-8" });
-  const downloadUrl = URL.createObjectURL(blob);
-  const a = document.createElement("a");
-  a.href = downloadUrl;
-  a.download = "referencias_apa.txt";
-  document.body.appendChild(a);
-  a.click();
-  document.body.removeChild(a);
-  URL.revokeObjectURL(downloadUrl);
-});
-
-const uploadForm = document.querySelector('.upload-card');
+const uploadForm = document.querySelector('#upload-form');
 if (uploadForm) {
   uploadForm.addEventListener('submit', (event) => {
     event.preventDefault();

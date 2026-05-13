@@ -14,8 +14,10 @@ class AIService:
         groq_api_key = os.getenv("GROQ_API_KEY")
         if groq_api_key:
             self.groq_client = Groq(api_key=groq_api_key)
+            self.groq_model = os.getenv("GROQ_MODEL", "llama-3.3-70b-versatile")
         else:
             self.groq_client = None
+            self.groq_model = None
         
     def parse_references(self, text: str) -> list:
         prompt = (
@@ -31,7 +33,7 @@ class AIService:
                 contents=prompt
             )
             return self._extract_json(response.text)
-        except Exception as e:
+        except Exception:
             print("Gemini saturado, cambiando a Groq...")
             return self._parse_with_groq(prompt)
 
@@ -41,6 +43,10 @@ class AIService:
             return []
             
         try:
+            if not self.groq_model:
+                print("Error: No se configuró el modelo Groq.")
+                return []
+
             chat_completion = self.groq_client.chat.completions.create(
                 messages=[
                     {
@@ -48,7 +54,7 @@ class AIService:
                         "content": prompt,
                     }
                 ],
-                model="llama3-70b-8192",
+                model=self.groq_model,
             )
             return self._extract_json(chat_completion.choices[0].message.content)
         except Exception as e:

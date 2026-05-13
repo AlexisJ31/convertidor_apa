@@ -1,3 +1,42 @@
+# Archivos de entorno
 .env
-venv/
+.env.local
+.env.production
+
+# Carpetas de Python
 __pycache__/
+*.pyc
+*.pyo
+*.pyd
+.Python
+venv/
+env/
+ENV/
+.venv/
+
+# Carpetas del sistema o editor
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
+
+# Datos temporales y archivos procesados
+temp/
+uploads/
+*.docx
+*.pdf
+*.tmp
+
+# Logs
+*.log
+logs/
+
+# Archivos de desarrollo
+.pytest_cache/
+.coverage
+htmlcov/
+
+# Archivos de distribución
+dist/
+build/
+*.egg-info/

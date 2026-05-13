@@ -62,7 +62,7 @@
           <p>Selecciona un documento compatible. La interfaz validará el tipo de archivo antes de continuar.</p>
         </div>
 
-        <form class="upload-card" aria-describedby="upload-help" novalidate>
+        <form id="upload-form" class="upload-card" aria-describedby="upload-help" novalidate onsubmit="event.preventDefault();">
           <input id="file-input" class="file-input" type="file" accept=".doc,.docx,.pdf,application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document,application/pdf" />
           <label id="drop-area" class="drop-area" for="file-input" tabindex="0">
             <span class="upload-icon" aria-hidden="true">
@@ -79,27 +79,9 @@
 
         <div id="results-container" class="results-container" style="display: none;">
           <div class="results-header">
-            <h3>Referencias Extraídas</h3>
-            <button class="button button-secondary download-button" type="button" id="download-button">
-              <svg viewBox="0 0 24 24" width="20" height="20" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round" class="icon-download"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg>
-              Descargar Referencias
-            </button>
+            <h3>Resultado</h3>
           </div>
-          <div class="table-responsive">
-            <table id="references-table" class="references-table">
-              <thead>
-                <tr>
-                  <th>Autor(es)</th>
-                  <th>Año</th>
-                  <th>Título</th>
-                  <th>Fuente</th>
-                </tr>
-              </thead>
-              <tbody id="references-tbody">
-                <!-- Contenido dinámico -->
-              </tbody>
-            </table>
-          </div>
+          <div id="result-message-container" class="p-6 text-center bg-gray-50 rounded-lg border border-gray-200 mt-4"></div>
         </div>
       </section>
 
