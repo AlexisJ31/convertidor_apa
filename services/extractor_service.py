@@ -38,8 +38,10 @@ def get_extractor(file_path: str) -> DocumentExtractor:
     _, ext = os.path.splitext(file_path)
     ext = ext.lower()
     
-    if ext in {".doc", ".docx"}:
+    if ext == ".docx":
         return DocxExtractor(file_path)
+    elif ext == ".doc":
+        raise ValueError("El formato .doc antiguo no está soportado. Por favor, guarde el archivo como .docx o súbalo en formato PDF.")
     elif ext == ".pdf":
         return PdfExtractor(file_path)
     else:
