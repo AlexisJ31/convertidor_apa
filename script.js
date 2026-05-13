@@ -99,7 +99,7 @@ processButton.addEventListener('click', async (event) => {
   formData.append('file', selectedFile);
 
   try {
-    const response = await fetch('https://convertidor-apa.onrender.com', {
+    const response = await fetch('https://convertidor-apa.onrender.com/api/v1/convert', {
       method: 'POST',
       body: formData
     });
@@ -139,6 +139,12 @@ processButton.addEventListener('click', async (event) => {
     `;
     resultsContainer.style.display = 'block';
     
+    // Mostrar modal
+    const modal = document.querySelector('#success-modal');
+    if (modal) {
+      modal.style.display = 'flex';
+    }
+    
     // Desplazarse suavemente hacia los resultados
     setTimeout(() => {
       resultsContainer.scrollIntoView({ behavior: 'smooth', block: 'start' });
@@ -156,5 +162,15 @@ const uploadForm = document.querySelector('#upload-form');
 if (uploadForm) {
   uploadForm.addEventListener('submit', (event) => {
     event.preventDefault();
+  });
+}
+
+const closeModalButton = document.querySelector('#close-modal-button');
+if (closeModalButton) {
+  closeModalButton.addEventListener('click', () => {
+    const modal = document.querySelector('#success-modal');
+    if (modal) {
+      modal.style.display = 'none';
+    }
   });
 }

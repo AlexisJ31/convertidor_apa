@@ -27,7 +27,7 @@ app.add_middleware(
     # ⚠️  SEGURIDAD: Cambiar "*" por la URL específica de producción
     # Ejemplo para Netlify: allow_origins=["https://tu-app.netlify.app"]
     # Para desarrollo local: allow_origins=["http://localhost:5500", "http://127.0.0.1:5500"]
-    allow_origins=["*"],  # Permitir acceso desde el frontend en Live Server 5500 / cualquier origen durante el desarrollo
+    allow_origins=["https://autoapa.netlify.app", "http://localhost:5500", "http://127.0.0.1:5500"],  # Permitir Netlify y desarrollo local
     allow_credentials=False,
     allow_methods=["*"],
     allow_headers=["*"],
